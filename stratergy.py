@@ -6,6 +6,6 @@ def moving_average_strategy(data):
     data['SMA50'] = data['Close'].rolling(50).mean()
 
     if data['SMA20'].iloc[-1] > data['SMA50'].iloc[-1]:
-        return "BUY"
+        return "BUY 📈"
     else:
-        return "SELL"
+        return "SELL 📉"
