@@ -10,7 +10,7 @@ from sentiment import analyze_news
 
 st.set_page_config(page_title="AI Trading Dashboard", layout="wide")
 
-st.title("🤖 AI Stock Trading Dashboard")
+st.title(" AI Stock Trading Dashboard")
 
 stock = st.sidebar.text_input("Stock Symbol", "AAPL")
 investment = st.sidebar.number_input("Investment Amount ($)", 1000)
