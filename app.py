@@ -15,10 +15,14 @@ st.title("🤖 AI Stock Trading Dashboard")
 stock = st.sidebar.text_input("Stock Symbol", "AAPL")
 investment = st.sidebar.number_input("Investment Amount ($)", 1000)
 
-data = yf.download(stock, period="6mo")
+# -------- DOWNLOAD STOCK DATA --------
+data = yf.download(stock, period="6mo", auto_adjust=True)
+
+# REMOVE EMPTY VALUES (IMPORTANT FIX)
+data = data.dropna()
 
 if data.empty:
-    st.error("No stock data found")
+    st.error("No stock data found. Try another symbol.")
 
 else:
 
@@ -27,10 +31,10 @@ else:
 
     fig = go.Figure(data=[go.Candlestick(
         x=data.index,
-        open=data['Open'],
-        high=data['High'],
-        low=data['Low'],
-        close=data['Close']
+        open=data["Open"],
+        high=data["High"],
+        low=data["Low"],
+        close=data["Close"]
     )])
 
     st.plotly_chart(fig, use_container_width=True)
@@ -42,7 +46,7 @@ else:
     st.write(signal)
 
     # -------- AI Price Prediction --------
-    current_price = data['Close'].iloc[-1]
+    current_price = data["Close"].iloc[-1]
     predicted_price = predict_price(current_price)
 
     st.subheader("🔮 AI Predicted Price")
@@ -62,10 +66,10 @@ else:
     col3.metric("Estimated Profit", round(profit, 2))
 
     # -------- RSI Indicator --------
-    data['RSI'] = calculate_rsi(data)
+    data["RSI"] = calculate_rsi(data)
 
     st.subheader("📈 RSI Indicator")
-    st.line_chart(data['RSI'])
+    st.line_chart(data["RSI"])
 
     # -------- MACD Indicator --------
     macd, signal_line = calculate_macd(data)
